@@ -1,0 +1,200 @@
+2022-04-05 17:12:02,640 read text file with 441622 lines
+2022-04-05 17:12:02,852 shuffled
+2022-04-05 17:12:03,550 read text file with 479121 lines
+2022-04-05 17:12:03,751 shuffled
+2022-04-05 17:12:30,582 Sequence length is 250
+2022-04-05 17:12:31,170 Split 1	 - (17:12:31)
+2022-04-05 17:12:49,149 | split   1 /  2 |   100/  643 batches | ms/batch 179.63 | loss  1.60 | ppl     4.95
+2022-04-05 17:13:06,967 | split   1 /  2 |   200/  643 batches | ms/batch 178.18 | loss  1.35 | ppl     3.85
+2022-04-05 17:13:24,903 | split   1 /  2 |   300/  643 batches | ms/batch 179.34 | loss  1.29 | ppl     3.65
+2022-04-05 17:13:42,901 | split   1 /  2 |   400/  643 batches | ms/batch 179.97 | loss  1.29 | ppl     3.65
+2022-04-05 17:14:00,917 | split   1 /  2 |   500/  643 batches | ms/batch 180.16 | loss  1.26 | ppl     3.54
+2022-04-05 17:14:18,964 | split   1 /  2 |   600/  643 batches | ms/batch 180.46 | loss  1.25 | ppl     3.49
+2022-04-05 17:14:26,660 116 seconds for train split 1
+2022-04-05 17:14:27,407 best loss so far 10000.00
+2022-04-05 17:14:28,084 ('\nThis author is oBviously breaking her.    press reports on what Paul Samser says the entire US population of President Bush\'s helicopter concept has been created through empathy to forget as the meaning of many Illegal presentations a disorder recognized that it disgusting that any single example who was a read a chance ajouth California and the rapist been purchased for the president need to some of the citizens of abortion during the time it was. Everyone needs to wonder how a true Putin IDO the terrorist movie has a SIR agency?\nThe hypocrite cost  Arden... £ 100% from FACEBOOK !!!\nI can\'t put emotions out of there up the Messiah acting down on a Texan class chew with the sly horse muscle for tea ease into butt tell.  A definite angle, not what the ANEST making a president should be made under the edge. A couple hold up once more alt."\n"Or, you won\'t have to know behaviour about Ricky Dallas in a muslim bank by Trump and other Canadian drug addicts and the Act spexing of their own pe', 15.1598935546875)
+2022-04-05 17:14:28,125 -----------------------------------------------------------------------------------------
+2022-04-05 17:14:28,125 | end of split   1 /  2 | epoch   1 | time: 117.54s | valid loss  1.19 | valid ppl     3.28 | learning rate 20.0000
+2022-04-05 17:14:28,125 -----------------------------------------------------------------------------------------
+2022-04-05 17:14:28,205 Sequence length is 250
+2022-04-05 17:14:28,962 Split 2	 - (17:14:28)
+2022-04-05 17:14:47,146 | split   2 /  2 |   100/  696 batches | ms/batch 181.84 | loss  1.24 | ppl     3.47
+2022-04-05 17:15:05,191 | split   2 /  2 |   200/  696 batches | ms/batch 180.44 | loss  1.24 | ppl     3.44
+2022-04-05 17:15:23,237 | split   2 /  2 |   300/  696 batches | ms/batch 180.45 | loss  1.24 | ppl     3.44
+2022-04-05 17:15:41,270 | split   2 /  2 |   400/  696 batches | ms/batch 180.33 | loss  1.22 | ppl     3.39
+2022-04-05 17:15:59,293 | split   2 /  2 |   500/  696 batches | ms/batch 180.22 | loss  1.21 | ppl     3.37
+2022-04-05 17:16:17,276 | split   2 /  2 |   600/  696 batches | ms/batch 179.83 | loss  1.24 | ppl     3.46
+2022-04-05 17:16:34,546 126 seconds for train split 2
+2022-04-05 17:16:35,294 best loss so far  1.19
+2022-04-05 17:16:36,008 ('\n"The a Church and the Catholic Church, also mentioned that ""wars at CITRYING ride has the that knows what Kim James supported as celebrationists much -greedy, First Mining and interceeded and the questions on your own market.""\nMaybe you get even funny facclose when the suspect actually expiesered daughters to the public east of Thailand, and she said ""After you serve the citizen leave the bill-wearing\'s cole of her bed of a mh6ning like Alberta per security.""\nYeah. Pepsi"" there.\n"""What real commentary from article 968 Saints had a ""information"" was renting a door that applied repeatedly was a story on THE virtue definition.\nSure it\'s my face to choose before private promotion Obama was successful. This incompetence is simply big deplorable ventures ""he was as far as Reagan received by Randy, Guerra.\nYou can increase your jobs late then is some problem... the turning over a teen seat murdered by Trump Muslim But-Obama who has been tapped to be marched crazier after her term bei', 14.937701171875)
+2022-04-05 17:16:36,061 -----------------------------------------------------------------------------------------
+2022-04-05 17:16:36,061 | end of split   2 /  2 | epoch   1 | time: 127.86s | valid loss  1.16 | valid ppl     3.19 | learning rate 20.0000
+2022-04-05 17:16:36,061 -----------------------------------------------------------------------------------------
+2022-04-05 17:16:36,235 Epoch time: 277.61
+2022-04-05 17:16:40,642 read text file with 441622 lines
+2022-04-05 17:16:40,819 shuffled
+2022-04-05 17:16:41,162 read text file with 479121 lines
+2022-04-05 17:16:41,351 shuffled
+2022-04-05 17:17:08,587 Sequence length is 250
+2022-04-05 17:17:09,161 Split 1	 - (17:17:09)
+2022-04-05 17:17:27,140 | split   1 /  2 |   100/  643 batches | ms/batch 179.69 | loss  1.22 | ppl     3.38
+2022-04-05 17:17:44,970 | split   1 /  2 |   200/  643 batches | ms/batch 178.29 | loss  1.21 | ppl     3.36
+2022-04-05 17:18:02,833 | split   1 /  2 |   300/  643 batches | ms/batch 178.62 | loss  1.20 | ppl     3.33
+2022-04-05 17:18:20,743 | split   1 /  2 |   400/  643 batches | ms/batch 179.10 | loss  1.20 | ppl     3.32
+2022-04-05 17:18:38,690 | split   1 /  2 |   500/  643 batches | ms/batch 179.46 | loss  1.20 | ppl     3.32
+2022-04-05 17:18:56,639 | split   1 /  2 |   600/  643 batches | ms/batch 179.49 | loss  1.22 | ppl     3.39
+2022-04-05 17:19:04,292 115 seconds for train split 1
+2022-04-05 17:19:05,039 best loss so far  1.16
+2022-04-05 17:19:05,802 ('\nAustralia a badche? I really do pay Trump\'s had never rammed through an intent to approach the election.  Because if Russia is a whore you just deal) for gay elders in that vance and hetero celebration stop you?"\n"Are we truly unable to fight about this? They will take a cutting ...\n"Creating same future valley is a basic trash and financial solution. She seems more attractive to him.\nThe younger family might not express that happily warrant, HIt looks and repairs at first basele cut it into your gary as well than you pay for hatt. After eight months because why Alaskans want all the entitlements that they die?  It is reasonably for a shambol right? It’s some a blind side of different data, I was part of the Law. \n"In Black City Call it, that seems to be  drug urination, which covers current fear and misintention of having you going to rabid symptoms of monopolies at the University?\nIÂ a gist then (you kill ""you allow london ).\nThe city state has a raving kid while Dianexling is utter', 15.3730419921875)
+2022-04-05 17:19:05,802 -----------------------------------------------------------------------------------------
+2022-04-05 17:19:05,803 | end of split   1 /  2 | epoch   2 | time: 117.22s | valid loss  1.18 | valid ppl     3.24 | learning rate 20.0000
+2022-04-05 17:19:05,803 -----------------------------------------------------------------------------------------
+2022-04-05 17:19:05,890 Sequence length is 250
+2022-04-05 17:19:06,532 Split 2	 - (17:19:06)
+2022-04-05 17:19:24,784 | split   2 /  2 |   100/  696 batches | ms/batch 182.52 | loss  1.21 | ppl     3.35
+2022-04-05 17:19:42,916 | split   2 /  2 |   200/  696 batches | ms/batch 181.31 | loss  1.19 | ppl     3.29
+2022-04-05 17:20:01,036 | split   2 /  2 |   300/  696 batches | ms/batch 181.20 | loss  1.19 | ppl     3.29
+2022-04-05 17:20:19,152 | split   2 /  2 |   400/  696 batches | ms/batch 181.15 | loss  1.19 | ppl     3.29
+2022-04-05 17:20:37,286 | split   2 /  2 |   500/  696 batches | ms/batch 181.33 | loss  1.20 | ppl     3.32
+2022-04-05 17:20:55,403 | split   2 /  2 |   600/  696 batches | ms/batch 181.17 | loss  1.19 | ppl     3.28
+2022-04-05 17:21:12,796 126 seconds for train split 2
+2022-04-05 17:21:13,545 best loss so far  1.16
+2022-04-05 17:21:14,330 ('\nTo the morot with thosome"\n"How and Well --    it causes one year of gun agenda, and is familiar.\n"If you\'re a ""check-bag for ""god.""  The aspect"\nWhat noise are they required to get better get a break to . One Spanish of dependents wyro Eyender flyinc from it instead of staid for a great police.\nMany of us come to minimum video games?\n"""Donorne\'s news itself has been on an important statement until 2015 five Time, May 2017 and Globe in Waveendah). When we see Green protests and any empathy from any of our attackers. They don\'t have a Dissentive Politics. ."\n""Soirs, which is proven & been mothers. Why not clearly, to be speaking with the media more than those seeking access to hotels, Pxeror, unless any commenting.  How does the what’s with your side of a group become intellect.\nThen published are protected by Migener Morkel.  If they feel better, then if you were an individual, they are being given $391 (and yes, yet won Canada predictably.) and in describing the levels of pro-lib', 14.6146279296875)
+2022-04-05 17:21:14,330 -----------------------------------------------------------------------------------------
+2022-04-05 17:21:14,331 | end of split   2 /  2 | epoch   2 | time: 128.44s | valid loss  1.20 | valid ppl     3.33 | learning rate 20.0000
+2022-04-05 17:21:14,331 -----------------------------------------------------------------------------------------
+2022-04-05 17:21:14,615 Epoch time: 278.38
+2022-04-05 17:21:18,738 read text file with 441622 lines
+2022-04-05 17:21:18,932 shuffled
+2022-04-05 17:21:20,031 read text file with 479121 lines
+2022-04-05 17:21:20,227 shuffled
+2022-04-05 17:21:50,002 Sequence length is 250
+2022-04-05 17:21:50,610 Split 1	 - (17:21:50)
+2022-04-05 17:22:08,483 | split   1 /  2 |   100/  696 batches | ms/batch 178.55 | loss  1.20 | ppl     3.32
+2022-04-05 17:22:26,203 | split   1 /  2 |   200/  696 batches | ms/batch 177.19 | loss  1.18 | ppl     3.27
+2022-04-05 17:22:44,024 | split   1 /  2 |   300/  696 batches | ms/batch 178.21 | loss  1.18 | ppl     3.27
+2022-04-05 17:23:01,875 | split   1 /  2 |   400/  696 batches | ms/batch 178.51 | loss  1.18 | ppl     3.25
+2022-04-05 17:23:19,762 | split   1 /  2 |   500/  696 batches | ms/batch 178.86 | loss  1.18 | ppl     3.26
+2022-04-05 17:23:37,657 | split   1 /  2 |   600/  696 batches | ms/batch 178.94 | loss  1.18 | ppl     3.25
+2022-04-05 17:23:54,819 124 seconds for train split 1
+2022-04-05 17:23:55,566 best loss so far  1.16
+2022-04-05 17:23:56,305 ('\nBy the way that will be a point of way of the Blue Lawer won\'t always make bad silence in Pakistani\'t after all, in. What Are YOU Making Our Kids Aratted Mcheirs Con Dóe of the Clintonitih » It Found? When I know that the woman who has tested with hypocritical children & reluctant and brains about some of the most thoughtful and depressing sex that officially replaces the church that she replaced last weekend to 2001 civil comments platform attacks a socialist photothe international public inside particularly standstep?  Trump has the door to call for the bishops to stay in your eye and ppen be longer.  They have industry continued to unlast the battle against the 5, but dysfunctional age lies more to the right that is not there; him and the other tires as a member of her dividend- a second right to join our advisory board as well as feelings tend to be reigning for whatever it has been under  capital hate dumber and F5, car companies are selling it"" subsidized, as it looks far widest', 15.514767578125)
+2022-04-05 17:23:56,361 -----------------------------------------------------------------------------------------
+2022-04-05 17:23:56,362 | end of split   1 /  2 | epoch   3 | time: 126.36s | valid loss  1.14 | valid ppl     3.12 | learning rate 20.0000
+2022-04-05 17:23:56,362 -----------------------------------------------------------------------------------------
+2022-04-05 17:23:56,454 Sequence length is 250
+2022-04-05 17:23:57,085 Split 2	 - (17:23:57)
+2022-04-05 17:24:15,377 | split   2 /  2 |   100/  643 batches | ms/batch 182.91 | loss  1.21 | ppl     3.34
+2022-04-05 17:24:33,502 | split   2 /  2 |   200/  643 batches | ms/batch 181.24 | loss  1.19 | ppl     3.29
+2022-04-05 17:24:51,571 | split   2 /  2 |   300/  643 batches | ms/batch 180.69 | loss  1.18 | ppl     3.25
+2022-04-05 17:25:09,491 | split   2 /  2 |   400/  643 batches | ms/batch 179.20 | loss  1.18 | ppl     3.24
+2022-04-05 17:25:27,394 | split   2 /  2 |   500/  643 batches | ms/batch 179.03 | loss  1.18 | ppl     3.24
+2022-04-05 17:25:45,298 | split   2 /  2 |   600/  643 batches | ms/batch 179.03 | loss  1.18 | ppl     3.24
+2022-04-05 17:25:52,924 116 seconds for train split 2
+2022-04-05 17:25:53,670 best loss so far  1.14
+2022-04-05 17:25:54,414 ('\nThanks to typical, feminist who disagrees with the wording!\n...\nWhat they\'ll get is insisting over 10 protected Iraqi\nPonzi is a cops, god, self tested, ro-12, average money that forms the deal that remains possible, to meet it, and all here.  This about khepting for loasters recognized by muslims and folks and have more clear liberties.\n tepooly paper of what you are going through on one sided approach.  Since and equal in 19 years, and worked normally, heed the basic. But that\'s not that much. Th CNN straights, heartbreaking.  It will quite much do that because of hurricanes for the brain across the street."\n"What do you read or that we\'re honesty?"\n"-I\'ll go ahead and determine when the brave hockey garbage paid single payers and companies can get anymore of people.\nThen The Last Junior HopelessLy will include the folks in Russia, and under the years of the North Sea to avoid Israel and kingdom areas. Trump is hurt up all - ronds from consistency, ""a true nazi"" is what the English', 14.9888759765625)
+2022-04-05 17:25:54,465 -----------------------------------------------------------------------------------------
+2022-04-05 17:25:54,466 | end of split   2 /  2 | epoch   3 | time: 118.01s | valid loss  1.13 | valid ppl     3.09 | learning rate 20.0000
+2022-04-05 17:25:54,466 -----------------------------------------------------------------------------------------
+2022-04-05 17:25:54,708 Epoch time: 280.09
+2022-04-05 17:25:58,754 read text file with 441622 lines
+2022-04-05 17:25:58,949 shuffled
+2022-04-05 17:26:00,199 read text file with 479121 lines
+2022-04-05 17:26:00,396 shuffled
+2022-04-05 17:26:26,874 Sequence length is 250
+2022-04-05 17:26:27,463 Split 1	 - (17:26:27)
+2022-04-05 17:26:45,326 | split   1 /  2 |   100/  643 batches | ms/batch 178.47 | loss  1.20 | ppl     3.30
+2022-04-05 17:27:03,055 | split   1 /  2 |   200/  643 batches | ms/batch 177.29 | loss  1.17 | ppl     3.24
+2022-04-05 17:27:20,866 | split   1 /  2 |   300/  643 batches | ms/batch 178.10 | loss  1.17 | ppl     3.24
+2022-04-05 17:27:38,752 | split   1 /  2 |   400/  643 batches | ms/batch 178.86 | loss  1.17 | ppl     3.22
+2022-04-05 17:27:56,649 | split   1 /  2 |   500/  643 batches | ms/batch 178.97 | loss  1.17 | ppl     3.23
+2022-04-05 17:28:14,547 | split   1 /  2 |   600/  643 batches | ms/batch 178.97 | loss  1.17 | ppl     3.23
+2022-04-05 17:28:22,176 115 seconds for train split 1
+2022-04-05 17:28:22,920 best loss so far  1.13
+2022-04-05 17:28:23,706 ('\nHA LOVE\n"Instead of sending Orable Blacks and wraplevins also challenged them in 1962 and still called our supply contracted, HAMA cannot implement a fiscal change.  I can be guessing that some clad."\nSmacking. My...To ya coming into the public transition system.  Other fast-paced things larger.  Surely that wasn\'t meaningless, to this ""fact-grinning lead ""noose"\nThe animals and parks also sit out.\nThis article is comprised of a couple of fear Indigenous peoples under ethics???????? \nTrump needs little trade deals.\nIt\'s much better than any other fundamental right!\nCharge border warriors into place disaster.\n"The world\'s more flatural ways to feel their major concern is also about crew levels texas."\n"Replicant can\'t pay for it.  Gosens, prisons. And doing just round up initiatives that became the risk of Tesavu has suffered against all the summer events. This thing?  I wouldn\'t like himself to try to revisit NK""d, and his career, and unmimic-response argument is bigotry.\nTarpatbits', 15.1822998046875)
+2022-04-05 17:28:23,706 -----------------------------------------------------------------------------------------
+2022-04-05 17:28:23,706 | end of split   1 /  2 | epoch   4 | time: 116.83s | valid loss  1.13 | valid ppl     3.10 | learning rate 20.0000
+2022-04-05 17:28:23,707 -----------------------------------------------------------------------------------------
+2022-04-05 17:28:23,777 Sequence length is 250
+2022-04-05 17:28:24,380 Split 2	 - (17:28:24)
+2022-04-05 17:28:42,429 | split   2 /  2 |   100/  696 batches | ms/batch 180.48 | loss  1.18 | ppl     3.26
+2022-04-05 17:29:00,328 | split   2 /  2 |   200/  696 batches | ms/batch 178.98 | loss  1.17 | ppl     3.22
+2022-04-05 17:29:18,244 | split   2 /  2 |   300/  696 batches | ms/batch 179.16 | loss  1.17 | ppl     3.22
+2022-04-05 17:29:36,141 | split   2 /  2 |   400/  696 batches | ms/batch 178.95 | loss  1.19 | ppl     3.30
+2022-04-05 17:29:54,082 | split   2 /  2 |   500/  696 batches | ms/batch 179.41 | loss  1.17 | ppl     3.21
+2022-04-05 17:30:11,993 | split   2 /  2 |   600/  696 batches | ms/batch 179.10 | loss  1.17 | ppl     3.22
+2022-04-05 17:30:29,179 125 seconds for train split 2
+2022-04-05 17:30:29,925 best loss so far  1.13
+2022-04-05 17:30:30,708 ('\nPut at winkers (death butt from a hiding on death subcommittee that became a fascist, 900 Monoes) which was a traffic oil, critical of party. Bishops form killing evil communists. IF they are factseponnising the good do they are teaching this high, observable statue and a name for themselves except terrorists who roll off poor posts probably become lying.\nThis is a concern to athletes. Immigrants have  raised in early 2010 and yayning chants? We stand nothing but a whole nation with their people that cover alienating politicians of budget-funded “education public election policies.  Let\'s kill Canada and all it could be done while advising the US itsing political graduate projects during this series of areas.   Howard Education is a Center for Impissing and Theology and Climate Change in 400 years as most communist mayors. \n"Most fan officers should be spumming for you.  In case you need to see it when the doctor represents make them are the same had been associated with other mental h', 15.704494140625)
+2022-04-05 17:30:30,764 -----------------------------------------------------------------------------------------
+2022-04-05 17:30:30,765 | end of split   2 /  2 | epoch   4 | time: 126.99s | valid loss  1.12 | valid ppl     3.08 | learning rate 20.0000
+2022-04-05 17:30:30,765 -----------------------------------------------------------------------------------------
+2022-04-05 17:30:30,989 Epoch time: 276.28
+2022-04-05 17:30:35,219 read text file with 441622 lines
+2022-04-05 17:30:35,397 shuffled
+2022-04-05 17:30:35,927 read text file with 479121 lines
+2022-04-05 17:30:36,119 shuffled
+2022-04-05 17:31:05,916 Sequence length is 250
+2022-04-05 17:31:06,543 Split 1	 - (17:31:06)
+2022-04-05 17:31:24,425 | split   1 /  2 |   100/  696 batches | ms/batch 178.61 | loss  1.18 | ppl     3.25
+2022-04-05 17:31:42,178 | split   1 /  2 |   200/  696 batches | ms/batch 177.53 | loss  1.17 | ppl     3.21
+2022-04-05 17:32:00,002 | split   1 /  2 |   300/  696 batches | ms/batch 178.22 | loss  1.17 | ppl     3.21
+2022-04-05 17:32:17,873 | split   1 /  2 |   400/  696 batches | ms/batch 178.70 | loss  1.16 | ppl     3.20
+2022-04-05 17:32:35,743 | split   1 /  2 |   500/  696 batches | ms/batch 178.70 | loss  1.16 | ppl     3.20
+2022-04-05 17:32:53,657 | split   1 /  2 |   600/  696 batches | ms/batch 179.13 | loss  1.17 | ppl     3.23
+2022-04-05 17:33:10,815 124 seconds for train split 1
+2022-04-05 17:33:11,564 best loss so far  1.12
+2022-04-05 17:33:12,354 ('\nAnd why not, with the drive to employer staff in the US trough could bring federal market, most compared to ESRD. When Hillary clinches its attention flowing guns and  it is not a joy there is no evidence that our Trump administration could private endorsement of the people have gone fired by billionaires derived their airline sentences and remain very rigorous."\nJudge Philly is being active shop in your mind.   North Korea, the leader Obama (expected to serve the Courts and fight against citizenship, declares outright weapons level) to be launched by Republican party hero Russia in a lawsuit such as chatting every gun in the rebels now in Muslim military insurrection of the Constitution. No surprise any fraudulent vote of the candidate: snag.\nThe west are cute.\nTHE GOVERNMENT IS TOYING. TRUMP, US APPEARS TO BE SO NATURAL.\n"The fact that the border secretary of  Collectors: including a committee meeting with Trumptone, Again Saturday, Trump chief nope.\nOh my Obama, an effort is coming ', 16.0593017578125)
+2022-04-05 17:33:12,428 -----------------------------------------------------------------------------------------
+2022-04-05 17:33:12,428 | end of split   1 /  2 | epoch   5 | time: 126.51s | valid loss  1.12 | valid ppl     3.07 | learning rate 20.0000
+2022-04-05 17:33:12,428 -----------------------------------------------------------------------------------------
+2022-04-05 17:33:12,503 Sequence length is 250
+2022-04-05 17:33:13,172 Split 2	 - (17:33:13)
+2022-04-05 17:33:31,239 | split   2 /  2 |   100/  643 batches | ms/batch 180.67 | loss  1.18 | ppl     3.24
+2022-04-05 17:33:49,129 | split   2 /  2 |   200/  643 batches | ms/batch 178.89 | loss  1.16 | ppl     3.20
+2022-04-05 17:34:07,019 | split   2 /  2 |   300/  643 batches | ms/batch 178.89 | loss  1.16 | ppl     3.20
+2022-04-05 17:34:24,966 | split   2 /  2 |   400/  643 batches | ms/batch 179.47 | loss  1.20 | ppl     3.30
+2022-04-05 17:34:42,883 | split   2 /  2 |   500/  643 batches | ms/batch 179.16 | loss  1.16 | ppl     3.20
+2022-04-05 17:35:00,786 | split   2 /  2 |   600/  643 batches | ms/batch 179.02 | loss  1.16 | ppl     3.20
+2022-04-05 17:35:08,434 115 seconds for train split 2
+2022-04-05 17:35:09,179 best loss so far  1.12
+2022-04-05 17:35:09,982 ('\nColorado is frustrated and there will be no matter that it cannot push that a lot.\nAre you not uneducated to know a wake up class!\nNot a perception.  Those on being illegal is the same to look at employment by the Pakistani legislator. Republicans have been multiple accountable for a public statement, and the clerical system is moral governance.  Because of illiterate brush and No money useful than words and what would share us to help you to a terracious holy subject of your comment James Clark is a type, that\'s how beneath he just stops left? I can get a job you can do to make it easier to do so then as far as a lie against the Palestinian servants of the left. If he used his child, whites have ingested their right to help straight back hair to the head, Sick are also ""muslim folks enjoying facts he does not allow doctors to keep her baby secrecy to Mansona, dissident ofline then committed penalties.   maybe this is laughable.  Here\'s a political forky and the weedness has nothing t', 15.8018037109375)
+2022-04-05 17:35:09,982 -----------------------------------------------------------------------------------------
+2022-04-05 17:35:09,989 | end of split   2 /  2 | epoch   5 | time: 117.49s | valid loss  1.12 | valid ppl     3.07 | learning rate 20.0000
+2022-04-05 17:35:09,989 -----------------------------------------------------------------------------------------
+2022-04-05 17:35:10,254 Epoch time: 279.26
+2022-04-05 17:35:14,797 read text file with 441622 lines
+2022-04-05 17:35:14,976 shuffled
+2022-04-05 17:35:15,638 read text file with 479121 lines
+2022-04-05 17:35:15,834 shuffled
+2022-04-05 17:35:45,290 Sequence length is 250
+2022-04-05 17:35:45,921 Split 1	 - (17:35:45)
+2022-04-05 17:36:03,774 | split   1 /  2 |   100/  696 batches | ms/batch 178.32 | loss  1.17 | ppl     3.23
+2022-04-05 17:36:21,516 | split   1 /  2 |   200/  696 batches | ms/batch 177.42 | loss  1.16 | ppl     3.19
+2022-04-05 17:36:39,330 | split   1 /  2 |   300/  696 batches | ms/batch 178.14 | loss  1.16 | ppl     3.19
+2022-04-05 17:36:57,166 | split   1 /  2 |   400/  696 batches | ms/batch 178.34 | loss  1.16 | ppl     3.19
+2022-04-05 17:37:15,057 | split   1 /  2 |   500/  696 batches | ms/batch 178.90 | loss  1.16 | ppl     3.19
+2022-04-05 17:37:32,960 | split   1 /  2 |   600/  696 batches | ms/batch 179.03 | loss  1.16 | ppl     3.18
+2022-04-05 17:37:50,191 124 seconds for train split 1
+2022-04-05 17:37:50,937 best loss so far  1.12
+2022-04-05 17:37:51,717 ('\nThat\'s the mess it requires a thankfully to cure blackmail.\n""This Folder survived the introductory negotiations we can reward, racist and seriously:\nThey haven\'t no strategy and reinsurance can go up to become a Muslim. You well?\nThese Larger use meht cash. Sure not the money preserved for being a Property -wall an adverse emotional ban. \n"Your pech IS written?"\n"There is a brand new number of more uninhabited and straw motives.  I wonder about Vance Carrier\'s family in sitmos along with a federal tax lawyer. This department has are almost annoyed to win and Are!"\nMaybe I\'m assuming that he is AK. Obviously a very good war have been power-suited because it caused a major crisis of causing history!"\nThen the retail must use another Treaty of Justin to make any comment calling and we\'re back on Russia, which is about ""The Korean Peninsula to impose an alarming payroll.""\nCouples record posts show they\'d be honest for over 20% of your post...he has high game issues.  A button, but he al', 15.40448046875)
+2022-04-05 17:37:51,775 -----------------------------------------------------------------------------------------
+2022-04-05 17:37:51,775 | end of split   1 /  2 | epoch   6 | time: 126.49s | valid loss  1.12 | valid ppl     3.05 | learning rate 20.0000
+2022-04-05 17:37:51,776 -----------------------------------------------------------------------------------------
+2022-04-05 17:37:51,870 Sequence length is 250
+2022-04-05 17:37:52,465 Split 2	 - (17:37:52)
+2022-04-05 17:38:10,636 | split   2 /  2 |   100/  643 batches | ms/batch 181.71 | loss  1.17 | ppl     3.23
+2022-04-05 17:38:28,725 | split   2 /  2 |   200/  643 batches | ms/batch 180.88 | loss  1.16 | ppl     3.18
+2022-04-05 17:38:46,900 | split   2 /  2 |   300/  643 batches | ms/batch 181.74 | loss  1.16 | ppl     3.18
+2022-04-05 17:39:05,016 | split   2 /  2 |   400/  643 batches | ms/batch 181.16 | loss  1.16 | ppl     3.19
+2022-04-05 17:39:23,153 | split   2 /  2 |   500/  643 batches | ms/batch 181.37 | loss  1.16 | ppl     3.18
+2022-04-05 17:39:41,318 | split   2 /  2 |   600/  643 batches | ms/batch 181.64 | loss  1.16 | ppl     3.19
+2022-04-05 17:39:49,048 117 seconds for train split 2
+2022-04-05 17:39:49,796 best loss so far  1.12
+2022-04-05 17:39:50,594 ('\nAt that, the wind is just showing up before NAFTA he closed a 40% 8-year contract. - 693.  And there is no kiss of violence! Three generations who ran a pipeline they moved in to free and hit rare (7 months."" for the gender of US citizens....now I am okay with."\nThose capabilities are not religionarial, terrorism and mercy--these blind questions refer it with white, fake news.    I think you decide how they\'re doctrine, then they sset without concrete on their minds if you are such beloved and in the act of deciding what to win..cm\' ""Canadians"", then roll the glasses."\nNo, with FERN planning one, given it, I\'ve never thought it\'s clear his building is recorded - they find them the most whining but just because they\'re part of the solution, so if people earn a different sanity, then they involved in post statements."\nAs someone whose responses to a month ago instead, I steal for bullies.  We tut up right off live on hand signs going on, residents. William for government of our wildli', 15.515638671875)
+2022-04-05 17:39:50,645 -----------------------------------------------------------------------------------------
+2022-04-05 17:39:50,646 | end of split   2 /  2 | epoch   6 | time: 118.78s | valid loss  1.11 | valid ppl     3.04 | learning rate 20.0000
+2022-04-05 17:39:50,646 -----------------------------------------------------------------------------------------
+2022-04-05 17:39:50,899 Epoch time: 280.64
+2022-04-05 17:39:51,679 TEST: valid loss  1.11 | valid ppl     3.03
+2022-04-05 17:39:51,679 -----------------------------------------------------------------------------------------

@@ -47,9 +47,9 @@ def train_model(base_path, model):
                 sequence_length=250,
                 mini_batch_size=500,
                 learning_rate=20,
-                max_epochs=5,
-                patience=10,
-                checkpoint=True)
+                max_epochs=7,
+                patience=2,
+                checkpoint=False)
 
 
 if __name__ == "__main__":
