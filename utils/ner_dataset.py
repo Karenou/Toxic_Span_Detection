@@ -230,14 +230,17 @@ class NERDataset(Dataset):
         """
         return flair embedding
         @param sentence: a list of token in string
+        return np array with shape (n_tokens, flair_embed_dim)
         """
         flair_sentence = Sentence(sentence)
-        self.flair_model(flair_sentence)
+        self.flair_model.embed(flair_sentence)
 
         embeddings = []
         for token in flair_sentence:
-            embeddings.append(token.embedding)
+            embedding = torch.unsqueeze(token.embedding, 0)
+            embeddings.append(embedding)
 
+        embeddings = torch.cat(embeddings, dim=0).cpu().numpy()
         return embeddings
 
     def __getitem__(self, idx):
