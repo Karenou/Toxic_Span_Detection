@@ -1,6 +1,6 @@
 ## Flair Input Representation
 
-Finetune Flair `news-forward` and `news-backward` language models on toxic civil comment dataset.
+Finetune Flair `news-forward-fast` and `news-backward-fast` language models on toxic civil comment dataset. The embedding dimension is 1024.
 
 - Required packages and environment
     - flair
@@ -18,10 +18,10 @@ Finetune Flair `news-forward` and `news-backward` language models on toxic civil
 
 - Language models
 
-    By running the `train_language_model.py`, the finetuned models will be saved under the subfolder `language_model`. Our finetuned models can be found [here](https://drive.google.com/drive/folders/1-3kLleCwLHZAVcvdujOc37zOIC9-aqD2?usp=sharing).
+    By running the `train_language_model.py`, the finetuned models will be saved under the subfolder `language_model`.
 
     ```
-    python train_language_model.py --base_path="." --model='news-forward'
+    python train_language_model.py --base_path="." --model='news-forward-fast'
     ```
     
 
