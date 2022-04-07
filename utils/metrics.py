@@ -1,3 +1,5 @@
+import numpy as np
+
 def f1(predictions, gold):
     """
     F1 (a.k.a. DICE) operating on two lists of offsets (e.g., character).
@@ -15,3 +17,15 @@ def f1(predictions, gold):
     nom = 2 * len(predictions_set.intersection(gold_set))
     denom = len(predictions_set) + len(gold_set)
     return float(nom)/float(denom)
+
+
+def f1_score(batch_size, pred, true):
+    """
+    compute average f1 for all posts
+    """
+    scores = [] 
+    for i in range(len(batch_size)):
+        scores.append(f1(pred[i], true[i]))
+
+    scores = np.mean(scores)
+    return scores
