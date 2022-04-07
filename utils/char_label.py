@@ -23,15 +23,15 @@ def get_char_level_label(data):
         elif offset[i+1][1] > len(words[index]):
             print("error")
 
-    bias = sentence.find(subword) + bias
+        bias = sentence.find(subword) + bias
 
-    if tags[i] == "I":
-        pos = bias
-        for i in range(len(subword)):
-            labels.append(pos)
-            pos = pos + 1
+        if tags[i] == "I":
+            pos = bias
+            for i in range(len(subword)):
+                labels.append(pos)
+                pos = pos + 1
 
-    bias = bias + len(subword)
-    sentence = sentence[sentence.find(subword)+len(subword):]
+        bias = bias + len(subword)
+        sentence = sentence[sentence.find(subword)+len(subword):]
 
     return labels

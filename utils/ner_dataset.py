@@ -68,13 +68,13 @@ def spans_to_ents(doc, spans, label):
         # skip white space
         if x.pos_ == 'SPACE':
             continue
-    if spans.intersection(set(range(x.idx, x.idx + len(x.text)))):
-        if not started:
-            left, started = x.idx, True
-        right = x.idx + len(x.text)
-    elif started:
-        ents.append((left, right, label))
-        started = False
+        if spans.intersection(set(range(x.idx, x.idx + len(x.text)))):
+            if not started:
+                left, started = x.idx, True
+            right = x.idx + len(x.text)
+        elif started:
+            ents.append((left, right, label))
+            started = False
     if started:
         ents.append((left, right, label))
     return ents
@@ -131,53 +131,6 @@ def build_ner_data_structure(data):
     for i in range(len(ner_labels)):
         if len(ner_labels[i]) != len(ner_texts[i]):
             print("sentence len inconsist!")
-        sys.exit()
-
-    return ner_texts, ner_labels
-
-
-def build_ner_data_structure(data):
-    ner_labels = []
-    ner_texts = []
-    for i in range(len(data)):
-        skip_sample = False
-        sent_o = data[i][2]
-        sent = data[i][2]
-        words_tmp = nltk.word_tokenize(sent)
-        words = []
-        for j in words_tmp:
-            if sent.find(j) > -1:
-                words.append(j)
-        word_level_labels = []
-        bias = 0
-        for word in words:
-            index = sent.find(word)
-            if index == -1:
-                print("error")
-                skip_sample = True
-                continue
-            flag = True
-            for entity in data[i][1]["entities"]:
-                if index + bias < entity[1] and index + bias >= entity[0]:
-                    word_level_labels.append("I")
-                    flag = False
-                    break
-            if flag:
-                word_level_labels.append("O")
-            bias = bias + index + len(word)
-            sent = sent[index + len(word):]
-        if skip_sample:
-            print("ship this sample")
-            continue
-        ner_texts.append(words)
-        ner_labels.append(word_level_labels)
-    
-    if len(ner_labels) != len(ner_texts):
-        print("num of samples inconsist!")
-        sys.exit()
-    for i in range(len(ner_labels)):
-        if len(ner_labels[i]) != len(ner_texts[i]):
-            print("sentence len inconsist!")
             sys.exit()
 
     return ner_texts, ner_labels
@@ -187,7 +140,7 @@ class NERDataset(Dataset):
     def __init__(self, sentences, labels, max_len, origional_data, flair_model=None, flair_embed_dim=1024):
         """
         @param sentences: list of document in tokens
-        @param labels: list of O, I labels
+        @param labels: list of O, I word-level labels
         @param max_len: max_seq_len in bert model
         @param original_data: list of (fixed spans, text)
         @param flair_model: path to load finetuned language model in flair
@@ -269,14 +222,23 @@ class NERDataset(Dataset):
             else:
                 break
         
-        encoded_labels = np.ones(len(encoding["offset_mapping"]), dtype=int) * -100
-        i = 0
-        for idx, mapping in enumerate(encoding["offset_mapping"]):
-            if mapping[0] == 0 and mapping[1] != 0:
-                encoded_labels[idx] = labels[i]
-                i += 1
-            elif mapping[0] > 0:
-                encoded_labels[idx] = labels[i-1]
+        # if adding flair, use the word-level label
+        if self.flair_model is not None:
+            if len(labels) > self.max_seq_len:
+                encoded_labels = np.array(labels[:self.max_seq_len])
+            else:
+                encoded_labels = np.array(labels)
+
+        # otherwise, use the subword-level label
+        else:
+            encoded_labels = np.ones(len(encoding["offset_mapping"]), dtype=int) * -100
+            i = 0
+            for idx, mapping in enumerate(encoding["offset_mapping"]):
+                if mapping[0] == 0 and mapping[1] != 0:
+                    encoded_labels[idx] = labels[i]
+                    i += 1
+                elif mapping[0] > 0:
+                    encoded_labels[idx] = labels[i-1]
 
         item = {key: torch.as_tensor(val) for key, val in encoding.items()}
         item['labels'] = torch.as_tensor(encoded_labels)
@@ -284,6 +246,7 @@ class NERDataset(Dataset):
         item['origional_sentences'] = origional_sentence
         item['origional_labels'] = origional_label
         item["tokens_len"] = length
+
         return item
 
     def __len__(self):
@@ -296,8 +259,6 @@ class NERDataset(Dataset):
 
         # original text tokens in string after nltk tokenizer
         sentences = [x["sentences"] for x in batch]
-        # length of the longest sentence in the current batch
-        max_sentence_len = max([len(x) for x in sentences])
 
         # original text in string
         origional_sentence = [x["origional_sentences"] for x in batch]
@@ -313,7 +274,7 @@ class NERDataset(Dataset):
         batch_data = self.word_pad_idx * np.ones((batch_len, self.max_seq_len))
         batch_labels = self.label_pad_idx * np.ones((batch_len, self.max_seq_len))
         batch_attention_masks = self.word_pad_idx * np.ones((batch_len, self.max_seq_len))
-        batch_flair_feat = self.word_pad_idx * np.ones((batch_len, max_sentence_len, self.flair_embed_dim))
+        batch_flair_feat = self.word_pad_idx * np.ones((batch_len, self.max_seq_len, self.flair_embed_dim))
 
         for i in range(batch_len):
             cur_len = len(input_ids[i])
@@ -325,11 +286,10 @@ class NERDataset(Dataset):
             cur_tags_len = len(attention_masks[i])
             batch_attention_masks[i][:cur_tags_len] = attention_masks[i]
             
-            # add flair embedding if needed
+            # add flair embedding if needed, only embed the first max_seq_len tokens
             if self.flair_model is not None:
-                curr_sentence_len = len(sentences[i])
-                batch_flair_feat[i][:curr_sentence_len] = self.get_flair_embedding(sentences[i])
-
+                curr_sentence_len = min(self.max_seq_len, len(sentences[i]))
+                batch_flair_feat[i][:curr_sentence_len] = self.get_flair_embedding(sentences[i][:curr_sentence_len])
 
         # convert data to torch LongTensors
         batch_data = torch.tensor(batch_data, dtype=torch.long)
