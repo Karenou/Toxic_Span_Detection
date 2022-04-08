@@ -4,6 +4,7 @@ import numpy as np
 import argparse
 
 import torch
+torch.manual_seed(100)
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from transformers.optimization import get_cosine_schedule_with_warmup, AdamW
@@ -50,7 +51,7 @@ def train_epoch(device, train_loader, model, optimizer, scheduler, epoch):
         scheduler.step()
 
     train_loss = round(float(train_losses) / len(train_loader), 2)
-    print("Epoch: {}, train loss: {}".format(epoch, train_loss, 2))
+    print("Epoch: {}, train loss: {}".format(epoch, train_loss))
 
 
 def eval_epoch(device, data_loader, model, epoch=1, mode="dev"):
@@ -160,7 +161,6 @@ if __name__ == "__main__":
     
     print("--------Start Training!--------")
     train_model(device, train_loader, trial_loader, model, optimizer, scheduler, args.early_stopping)
-    eval_epoch(device, trial_loader, model, epoch=1, mode="dev")
 
     print("--------Start Testing!--------")
     eval_epoch(device, test_loader, model, mode="test")

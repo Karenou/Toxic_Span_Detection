@@ -4,6 +4,7 @@ import numpy as np
 import argparse
 
 import torch
+torch.manual_seed(100)
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from transformers.optimization import get_cosine_schedule_with_warmup, AdamW
