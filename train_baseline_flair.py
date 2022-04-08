@@ -26,7 +26,7 @@ def train_epoch(device, train_loader, model, optimizer, scheduler, epoch):
     train_losses = 0
 
     for _, batch_samples in enumerate(tqdm(train_loader)):
-        batch_data, batch_flair_input, batch_masks, batch_labels, batch_labels, sentence, origional_sentences, origional_labels, length, offset = batch_samples
+        batch_data, batch_flair_input, batch_masks, batch_labels, sentence, _, _, length, offset = batch_samples
 
         # shift tensors to GPU if available
         batch_data = batch_data.to(device)
@@ -58,13 +58,13 @@ def eval_epoch(device, data_loader, model, epoch=1, mode="dev"):
     used for evaluate the dev set or test set
     """
     model.eval()
-    pred_tags = []
-    gold_tags = []
     pred_labels = []
     true_labels = []
 
     losses = 0
     for _, batch_samples in enumerate(tqdm(data_loader)):
+        pred_tags = []
+
         batch_data, batch_flair_input, batch_masks, batch_labels, sentences, origional_sentences, origional_labels, length, offset = batch_samples
         # shift tensors to GPU if available
         batch_data = batch_data.to(device)
@@ -85,7 +85,6 @@ def eval_epoch(device, data_loader, model, epoch=1, mode="dev"):
         batch_labels = batch_labels.to('cpu').numpy()
         batch_labels = batch_labels[:, :batch_output.shape[1]]
         pred_tags.extend([[id2label.get(idx.item()) for idx in indices] for indices in np.argmax(batch_output, axis=2)])
-        gold_tags.extend([[id2label.get(idx.item()) if idx.item() >= 0 else "O" for idx in indices] for indices in batch_labels])
 
         # get character-level label from word-level tags
         for i in range(len(length)):
@@ -122,7 +121,8 @@ if __name__ == "__main__":
     parser.add_argument("--base_path", type=str, required=True, help="base path to load data")
     parser.add_argument("--flair_model", type=str, required=True, help="base path to load data")
     parser.add_argument("--batch_size", type=int, default=32, help="batch size")
-    parser.add_argument("--num_epoch", type=int, default=50, help="number of training epochs")
+    parser.add_argument("--num_epoch", type=int, default=10, help="number of training epochs")
+    parser.add_argument("--early_stopping", type=int, default=3, help="stop at which epoch")
     args = parser.parse_args()
 
     training_set = get_dataset("%s/tsd_train.csv" % args.base_path, split="train", flair_model_path=args.flair_model)
@@ -152,14 +152,15 @@ if __name__ == "__main__":
         'lr': 1e-4, 'weight_decay': 0.0},
         {'params': model.crf.parameters(), 'lr': 5e-4}]
 
-    epoch_num = args.num_epoch
     optimizer = AdamW(optimizer_grouped_parameters, lr=1e-4, correct_bias=False)
     train_steps_per_epoch = len(training_set) // args.batch_size
     scheduler = get_cosine_schedule_with_warmup(optimizer,
                                                 num_warmup_steps=train_steps_per_epoch,
-                                                num_training_steps=epoch_num * train_steps_per_epoch)
+                                                num_training_steps=args.num_epoch * train_steps_per_epoch)
+    
     print("--------Start Training!--------")
-    train_model(device, train_loader, trial_loader, model, optimizer, scheduler, epoch_num)
+    train_model(device, train_loader, trial_loader, model, optimizer, scheduler, args.early_stopping)
+    eval_epoch(device, trial_loader, model, epoch=1, mode="dev")
 
     print("--------Start Testing!--------")
     eval_epoch(device, test_loader, model, mode="test")
