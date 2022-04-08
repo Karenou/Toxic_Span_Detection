@@ -35,3 +35,29 @@ def get_char_level_label(data):
         sentence = sentence[sentence.find(subword)+len(subword):]
 
     return labels
+
+def word_to_char_level_label(data):
+    """
+    the tags are word-level prediction
+    """
+    labels = []
+    mapping = data["mapping"]
+    words = data["words"]
+    sentence = data["sentence"]
+    tags = data["tags"]
+    bias = 0
+
+    for i in range(len(mapping)):
+        if tags[i] == "I":
+            word = words[mapping[i]]
+            bias = sentence.find(word) + bias
+
+            pos = bias
+            for _ in range(len(word)):
+                labels.append(pos)
+                pos += 1
+            
+            bias += len(word)
+            sentence = sentence[sentence.find(word) + len(word):]
+    
+    return labels
