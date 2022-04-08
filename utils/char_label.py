@@ -49,7 +49,7 @@ def word_to_char_level_label(data):
 
     for i in range(len(mapping)):
         if tags[i] == "I":
-            word = words[mapping[i]]
+            word = words[i]
             bias = sentence.find(word) + bias
 
             pos = bias
