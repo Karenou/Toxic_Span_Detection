@@ -44,11 +44,11 @@ def train_epoch(device, train_loader, model, optimizer, scheduler, epoch):
         optimizer.step()
         scheduler.step()
 
-    train_loss = float(train_losses) / len(train_loader)
-    print("Epoch: {}, train loss: {}".format(epoch, train_loss))
+    train_loss = round(float(train_losses) / len(train_loader), 2)
+    print("Epoch: {}, train loss: {}".format(epoch, train_loss, 2))
 
 
-def eval_epoch(device, data_loader, model, epoch, mode="dev"):
+def eval_epoch(device, data_loader, model, epoch=1, mode="dev"):
     """
     used for evaluate the dev set or test set
     """
@@ -58,6 +58,7 @@ def eval_epoch(device, data_loader, model, epoch, mode="dev"):
     pred_labels = []
     true_labels = []
 
+    losses = 0
     for _, batch_samples in enumerate(tqdm(data_loader)):
         batch_data, _, batch_masks, batch_labels, sentence, origional_sentences, origional_labels, length, offset = batch_samples
         # shift tensors to GPU if available
@@ -67,8 +68,11 @@ def eval_epoch(device, data_loader, model, epoch, mode="dev"):
 
         batch_output = model(batch_data,
                             token_type_ids=None, 
-                            attention_mask=batch_masks)
-        batch_output= batch_output[0].detach().cpu().numpy()
+                            attention_mask=batch_masks,
+                            labels=batch_labels)
+        
+        losses += batch_output[0].item()
+        batch_output= batch_output[1].detach().cpu().numpy()
         batch_labels = batch_labels.to('cpu').numpy()
         pred_tags.extend([[id2label.get(idx.item()) for idx in indices] for indices in np.argmax(batch_output, axis=2)])
         gold_tags.extend([[id2label.get(idx.item()) if idx.item() >= 0 else "O" for idx in indices] for indices in batch_labels])
@@ -83,11 +87,12 @@ def eval_epoch(device, data_loader, model, epoch, mode="dev"):
             pred_labels.append(get_char_level_label(data_tobe_convert))
             true_labels.append(origional_labels[i])
 
-    scores = f1_score(length, pred_labels, true_labels)
+    scores = round(f1_score(length, pred_labels, true_labels), 4)
+    losses = round(float(losses) / len(data_loader), 2)
     if mode == "dev":
-        print("Epoch: {}, f1: {}".format(epoch, scores * 100))
+        print("Epoch: {}, val f1: {}, val loss: {}".format(epoch, scores * 100, losses))
     else:
-        print("Test f1: {}".format(scores * 100))
+        print("Test f1: {}, test loss: {}".format(scores * 100, losses))
 
 
 def train_model(device, train_loader, dev_loader, model, optimizer, scheduler, epoch_num):
@@ -105,16 +110,19 @@ def train_model(device, train_loader, dev_loader, model, optimizer, scheduler, e
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--base_path", type=str, required=True, help="base path to load data")
+    parser.add_argument("--batch_size", type=int, default=32, help="batch size")
+    parser.add_argument("--num_epoch", type=int, default=50, help="number of training epochs")
     args = parser.parse_args()
 
     training_set = get_dataset("%s/tsd_train.csv" % args.base_path, split="train", flair_model_path=None)
     trial_set = get_dataset("%s/tsd_trial.csv" % args.base_path, split="trial", flair_model_path=None)
     test_set = get_dataset("%s/tsd_test.csv" % args.base_path, split="test", flair_model_path=None)
 
-    train_loader = DataLoader(training_set, batch_size=32, shuffle=False, collate_fn=trial_set.collate_fn)
-    trial_loader = DataLoader(trial_set, batch_size=32, shuffle=False, collate_fn=trial_set.collate_fn)
-    test_loader = DataLoader(test_set, batch_size=32, shuffle=False, collate_fn=trial_set.collate_fn)
+    train_loader = DataLoader(training_set, batch_size=args.batch_size, shuffle=True, collate_fn=trial_set.collate_fn)
+    trial_loader = DataLoader(trial_set, batch_size=args.batch_size, shuffle=False, collate_fn=trial_set.collate_fn)
+    test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False, collate_fn=trial_set.collate_fn)
 
+    torch.set_num_threads(4)
     model = BertNER.from_pretrained("bert-base-uncased")
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model.to(device)
@@ -133,9 +141,9 @@ if __name__ == "__main__":
         'lr': 1e-4, 'weight_decay': 0.0},
         {'params': model.crf.parameters(), 'lr': 5e-4}]
 
-    epoch_num = 50
+    epoch_num = args.num_epoch
     optimizer = AdamW(optimizer_grouped_parameters, lr=1e-4, correct_bias=False)
-    train_steps_per_epoch = len(training_set) // 32
+    train_steps_per_epoch = len(trial_set) // args.batch_size
     scheduler = get_cosine_schedule_with_warmup(optimizer,
                                                 num_warmup_steps=train_steps_per_epoch,
                                                 num_training_steps=epoch_num * train_steps_per_epoch)
