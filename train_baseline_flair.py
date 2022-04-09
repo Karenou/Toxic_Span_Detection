@@ -97,7 +97,7 @@ def eval_epoch(device, data_loader, model, epoch=1, mode="dev"):
             pred_labels.append(word_to_char_level_label(data_tobe_convert))
             true_labels.append(origional_labels[i])
 
-    scores = round(f1_score(length, pred_labels, true_labels), 4)
+    scores = round(f1_score(pred_labels, true_labels), 4)
     losses = round(float(losses) / len(data_loader), 2)
     if mode == "dev":
         print("Epoch: {}, val f1: {}, val loss: {}".format(epoch, scores * 100, losses))

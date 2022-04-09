@@ -19,12 +19,12 @@ def f1(predictions, gold):
     return float(nom)/float(denom)
 
 
-def f1_score(batch_size, pred, true):
+def f1_score(pred, true):
     """
     compute average f1 for all posts
     """
     scores = [] 
-    for i in range(len(batch_size)):
+    for i in range(len(pred)):
         scores.append(f1(pred[i], true[i]))
 
     scores = np.mean(scores)
