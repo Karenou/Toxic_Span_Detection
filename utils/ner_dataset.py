@@ -119,7 +119,7 @@ def build_ner_data_structure(data):
             sent = sent[index + len(word):]
 
         if skip_sample:
-            print("ship this sample")
+            print("skip this sample")
             continue
         ner_texts.append(words)
         ner_labels.append(word_level_labels)
