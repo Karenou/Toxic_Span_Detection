@@ -6,7 +6,7 @@ from transformers.modeling_bert import BertPreTrainedModel
 from torch.nn.utils.rnn import pad_sequence
 
 from model.crf import CRF
-from utils.map_offset_to_word import offset_to_word, mean_pooling
+from utils.map_offset_to_word import offset_to_word, pooling
 
 class BertNER(BertPreTrainedModel):
     def __init__(self, config):
@@ -20,7 +20,7 @@ class BertNER(BertPreTrainedModel):
         self.init_weights()
 
     def forward(self, input_ids, flair_input=None, token_type_ids=None, attention_mask=None, 
-                labels=None, sentence=None, offset=None, length=None):
+                labels=None, sentence=None, offset=None, length=None, method="sum"):
         """
         @param input_ids: token_id
         @param flair_input: flair embeddings, shape (batch_size, max_seq_len, flair_embed_dim
@@ -30,6 +30,7 @@ class BertNER(BertPreTrainedModel):
         @param sentence: list of word tokens in str
         @param offset: offset mapping of subword in word in the batch
         @param length: number of subword tokens in the batch
+        @param method: method to aggregate subword embeddings
         """
         outputs = self.bert(input_ids=input_ids,
                             attention_mask=attention_mask,
@@ -52,7 +53,7 @@ class BertNER(BertPreTrainedModel):
             for i in range(input_ids.shape[0]):
                 # perform average pooling to get the bert embedding for original tokens (without subwords)
                 mapping = offset_to_word(offset[i], length[i], sentence[i])
-                bert_embedding = mean_pooling(origin_sequence_output[i], mapping)
+                bert_embedding = pooling(origin_sequence_output[i], mapping, method=method)
 
                 # concat bert embedding and flair embedding at original token level
                 n_words = bert_embedding.shape[0]

@@ -23,10 +23,11 @@ def offset_to_word(offset, length, words):
 
     return map_lst
 
-def mean_pooling(embeddings, map_lst):
+def pooling(embeddings, map_lst, method="sum"):
     """
     @param embeddings: bert embeddings, shape (max_seq_len, embed_dim)
     @param map_lst: a list to map the subword to word index
+    @param method: mean or sum
     return a tensor of embeddings at word-level (length, embed_dim)
     """
     word_embeddings = []
@@ -36,7 +37,10 @@ def mean_pooling(embeddings, map_lst):
         if i == len(map_lst) or map_lst[i] != map_lst[i-1]:
             if len(tmp) > 1:
                 word_embedding = torch.concat(tmp, dim=0)
-                word_embedding = torch.mean(word_embedding, dim=0, keepdims=True)
+                if method == "mean":
+                    word_embedding = torch.mean(word_embedding, dim=0, keepdims=True)
+                else:
+                    word_embedding = torch.sum(word_embedding, dim=0, keepdims=True)
             else:
                 word_embedding = tmp[0]
 

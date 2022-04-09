@@ -1,4 +1,5 @@
 from ast import parse
+from multiprocessing import pool
 from tqdm import tqdm
 import numpy as np
 import argparse
@@ -19,7 +20,7 @@ label2id =  {"O": 0, "I": 1}
 id2label = {_id: _label for _label, _id in list(label2id.items())}
 
 
-def train_epoch(device, train_loader, model, optimizer, scheduler, epoch):
+def train_epoch(device, train_loader, model, optimizer, scheduler, pooling, epoch):
     """
     trainer for each epoch
     """
@@ -41,7 +42,8 @@ def train_epoch(device, train_loader, model, optimizer, scheduler, epoch):
                     labels=batch_labels,
                     sentence=sentence,
                     offset=offset,
-                    length=length)
+                    length=length,
+                    method=pooling)
         loss = loss[0]
         train_losses += loss.item()
         model.zero_grad()
@@ -54,7 +56,7 @@ def train_epoch(device, train_loader, model, optimizer, scheduler, epoch):
     print("Epoch: {}, train loss: {}".format(epoch, train_loss))
 
 
-def eval_epoch(device, data_loader, model, epoch=1, mode="dev"):
+def eval_epoch(device, data_loader, model, pooling, epoch=1, mode="dev"):
     """
     used for evaluate the dev set or test set
     """
@@ -79,7 +81,8 @@ def eval_epoch(device, data_loader, model, epoch=1, mode="dev"):
                     labels=batch_labels,
                     sentence=sentences,
                     offset=offset,
-                    length=length)
+                    length=length,
+                    method=pooling)
 
         losses += batch_output[0].item()
         batch_output= batch_output[1].detach().cpu().numpy()
@@ -105,13 +108,13 @@ def eval_epoch(device, data_loader, model, epoch=1, mode="dev"):
          print("Test f1: {}, test loss: {}".format(scores * 100, losses))
 
 
-def train_model(device, train_loader, dev_loader, model, optimizer, scheduler, epoch_num):
+def train_model(device, train_loader, dev_loader, model, optimizer, scheduler, epoch_num, pooling):
     """
     used for training bert model
     """
     for epoch in range(1, epoch_num + 1):
-        train_epoch(device, train_loader, model, optimizer, scheduler, epoch)
-        eval_epoch(device, dev_loader, model, epoch, mode="dev")
+        train_epoch(device, train_loader, model, optimizer, scheduler, pooling, epoch)
+        eval_epoch(device, dev_loader, model, pooling, epoch=epoch, mode="dev")
 
     print("Training Finished!")
 
@@ -121,6 +124,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--base_path", type=str, required=True, help="base path to load data")
     parser.add_argument("--flair_model", type=str, required=True, help="base path to load data")
+    parser.add_argument("--pooling", type=str, default="sum", help="pooling method to aggregate subword embedding, sum or mean")
     parser.add_argument("--batch_size", type=int, default=32, help="batch size")
     parser.add_argument("--num_epoch", type=int, default=10, help="number of training epochs")
     parser.add_argument("--early_stopping", type=int, default=3, help="stop at which epoch")
@@ -160,7 +164,8 @@ if __name__ == "__main__":
                                                 num_training_steps=args.num_epoch * train_steps_per_epoch)
     
     print("--------Start Training!--------")
-    train_model(device, train_loader, trial_loader, model, optimizer, scheduler, args.early_stopping)
+    train_model(device, train_loader, trial_loader, model, optimizer, scheduler, 
+                args.early_stopping, args.pooling)
 
     print("--------Start Testing!--------")
-    eval_epoch(device, test_loader, model, mode="test")
+    eval_epoch(device, test_loader, model, args.pooling, mode="test")
