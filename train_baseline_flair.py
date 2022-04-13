@@ -1,5 +1,3 @@
-from ast import parse
-from multiprocessing import pool
 from tqdm import tqdm
 import numpy as np
 import argparse
@@ -11,7 +9,7 @@ from torch.utils.data import DataLoader
 from transformers.optimization import get_cosine_schedule_with_warmup, AdamW
 
 from utils.metrics import f1_score
-from utils.char_label import word_to_char_level_label
+from utils.char_label import word_to_char_level_label, save_pred_label
 from utils.ner_dataset import get_dataset
 from utils.map_offset_to_word import offset_to_word
 from model.bert import BertNER
@@ -56,7 +54,7 @@ def train_epoch(device, train_loader, model, optimizer, scheduler, pooling, epoc
     print("Epoch: {}, train loss: {}".format(epoch, train_loss))
 
 
-def eval_epoch(device, data_loader, model, pooling, epoch=1, mode="dev"):
+def eval_epoch(device, data_loader, model, pooling, epoch=1, mode="dev", save_path=None):
     """
     used for evaluate the dev set or test set
     """
@@ -106,6 +104,10 @@ def eval_epoch(device, data_loader, model, pooling, epoch=1, mode="dev"):
         print("Epoch: {}, val f1: {}, val loss: {}".format(epoch, scores * 100, losses))
     else:
          print("Test f1: {}, test loss: {}".format(scores * 100, losses))
+    
+    if save_path:
+        save_pred_label(pred_labels, save_path)
+        print("Save pred label to %s " % save_path)
 
 
 def train_model(device, train_loader, dev_loader, model, optimizer, scheduler, epoch_num, pooling):
@@ -128,6 +130,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=32, help="batch size")
     parser.add_argument("--num_epoch", type=int, default=10, help="number of training epochs")
     parser.add_argument("--early_stopping", type=int, default=3, help="stop at which epoch")
+    parser.add_argument("--save_pred_path", type=str, default=None, help="path to save pred label")
     args = parser.parse_args()
 
     training_set = get_dataset("%s/tsd_train.csv" % args.base_path, split="train", flair_model_path=args.flair_model)
@@ -168,4 +171,4 @@ if __name__ == "__main__":
                 args.early_stopping, args.pooling)
 
     print("--------Start Testing!--------")
-    eval_epoch(device, test_loader, model, args.pooling, mode="test")
+    eval_epoch(device, test_loader, model, args.pooling, mode="test", flsave_path=args.save_pred_path)

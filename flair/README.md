@@ -23,6 +23,11 @@ Finetune Flair `news-forward-fast` and `news-backward-fast` language models on t
     ```
     python train_language_model.py --base_path="." --model='news-forward-fast'
     ```
-    
+- Run baseline + flair input 
+    ```
+    python train_baseline_flair.py --base_path="dataset" --flair_model="flair/language_model/news-forward-fast/best-lm.pt" --early_stopping=1 --pooling="sum" --save_pred_path="pred_results/flair_forward_pred.csv"
+
+    python train_baseline_flair.py --base_path="dataset" --flair_model="flair/language_model/news-backward-fast/best-lm.pt" --early_stopping=1 --pooling="mean" --save_pred_path="pred_results/flair_backward_pred.csv"
+    ```
 
  

@@ -1,4 +1,4 @@
-
+import pandas as pd
 
 def get_char_level_label(data):
     """
@@ -61,3 +61,14 @@ def word_to_char_level_label(data):
             sentence = sentence[sentence.find(word) + len(word):]
     
     return labels
+
+def save_pred_label(pred_label, save_path):
+    """
+    save predicted label to csv
+    @param perd_label: List[List[int]]
+    @param save_path: path of csv
+    """
+    # convert to list of str
+    pred_label_str = ["[" + ", ".join(map(str, label)) + "]" for label in pred_label]
+    pred_df = pd.DataFrame(pred_label_str, columns=["pred_label"])
+    pred_df.to_csv(save_path, index=False, header=True)
