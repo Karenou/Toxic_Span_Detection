@@ -26,7 +26,7 @@ def train_epoch(device, train_loader, model, optimizer, scheduler, pooling, epoc
     train_losses = 0
 
     for _, batch_samples in enumerate(tqdm(train_loader)):
-        batch_data, batch_flair_input, batch_masks, batch_labels, sentence, _, _, length, offset = batch_samples
+        batch_data, batch_flair_input, _, batch_masks, batch_labels, sentence, _, _, length, offset = batch_samples
 
         # shift tensors to GPU if available
         batch_data = batch_data.to(device)
@@ -66,7 +66,7 @@ def eval_epoch(device, data_loader, model, pooling, epoch=1, mode="dev", save_pa
     for _, batch_samples in enumerate(tqdm(data_loader)):
         pred_tags = []
 
-        batch_data, batch_flair_input, batch_masks, batch_labels, sentences, origional_sentences, origional_labels, length, offset = batch_samples
+        batch_data, batch_flair_input, _, batch_masks, batch_labels, sentences, origional_sentences, origional_labels, length, offset = batch_samples
         # shift tensors to GPU if available
         batch_data = batch_data.to(device)
         batch_masks = batch_masks.to(device)
@@ -125,7 +125,7 @@ def train_model(device, train_loader, dev_loader, model, optimizer, scheduler, e
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--base_path", type=str, required=True, help="base path to load data")
-    parser.add_argument("--flair_model", type=str, required=True, help="base path to load data")
+    parser.add_argument("--flair_model", type=str, required=True, help="base path to load flair finetuned language model")
     parser.add_argument("--pooling", type=str, default="sum", help="pooling method to aggregate subword embedding, sum or mean")
     parser.add_argument("--batch_size", type=int, default=32, help="batch size")
     parser.add_argument("--num_epoch", type=int, default=10, help="number of training epochs")
@@ -171,4 +171,4 @@ if __name__ == "__main__":
                 args.early_stopping, args.pooling)
 
     print("--------Start Testing!--------")
-    eval_epoch(device, test_loader, model, args.pooling, mode="test", flsave_path=args.save_pred_path)
+    eval_epoch(device, test_loader, model, args.pooling, mode="test", save_path=args.save_pred_path)

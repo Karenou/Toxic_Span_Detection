@@ -14,16 +14,17 @@ class BertNER(BertPreTrainedModel):
         self.num_labels = 2
         self.bert = BertModel(config)
         self.dropout = nn.Dropout(0.1)
-        # 768 for plain bert, 1792 for adding flair
-        self.classifier = nn.Linear(1792, self.num_labels)
+        # 768: raw bert, 1792: add flair only, 1068: add ft only, 2092: add both
+        self.classifier = nn.Linear(2092, self.num_labels)
         self.crf = CRF(self.num_labels, batch_first=True)
         self.init_weights()
 
-    def forward(self, input_ids, flair_input=None, token_type_ids=None, attention_mask=None, 
+    def forward(self, input_ids, flair_input=None, ft_input=None, token_type_ids=None, attention_mask=None, 
                 labels=None, sentence=None, offset=None, length=None, method="sum"):
         """
         @param input_ids: token_id
-        @param flair_input: flair embeddings, shape (batch_size, max_seq_len, flair_embed_dim
+        @param flair_input: flair embeddings, shape (batch_size, max_seq_len, flair_embed_dim)
+        @param ft_input: fast text word embeddings, shape (batch_size, max_seq_len, ft_embed_dim)
         @param token_type_ids: ner type id
         @param attention_mask: 
         @param labels: if add flair, use word-level label; otherwise use subword-level label
@@ -43,21 +44,25 @@ class BertNER(BertPreTrainedModel):
         origin_sequence_output = [layer[1:] for layer in sequence_output]
 
 
-        if flair_input is None:
+        if flair_input is None and ft_input is None:
             padded_sequence_output = pad_sequence(origin_sequence_output, batch_first=True)
-        
-        # otherwise add flair input 
+        # otherwise add flair input or fast text input
         else:
             batch_concat_embedding = []
             word_cnt_lst = []
             for i in range(input_ids.shape[0]):
-                # perform average pooling to get the bert embedding for original tokens (without subwords)
+                # perform mean / sum pooling to get the bert embedding for original tokens (without subwords)
                 mapping = offset_to_word(offset[i], length[i], sentence[i])
                 bert_embedding = pooling(origin_sequence_output[i], mapping, method=method)
 
-                # concat bert embedding and flair embedding at original token level
+                # concat bert, flair and / or ft embedding at original token level
                 n_words = bert_embedding.shape[0]
-                concat_embedding = torch.concat([bert_embedding, flair_input[i][:n_words]], dim=1)
+                if flair_input is not None and ft_input is not None:
+                    concat_embedding = torch.concat([bert_embedding, flair_input[i][:n_words], ft_input[i][:n_words]], dim=1)
+                elif flair_input is not None:
+                    concat_embedding = torch.concat([bert_embedding, flair_input[i][:n_words]], dim=1)
+                else:
+                    concat_embedding = torch.concat([bert_embedding, ft_input[i][:n_words]], dim=1)
                 batch_concat_embedding.append(concat_embedding)
                 
                 word_cnt_lst.append(len(set(mapping)))
@@ -69,8 +74,8 @@ class BertNER(BertPreTrainedModel):
         outputs = (logits,)
 
         if labels is not None:
-            # if add flair input, use word-level label
-            if flair_input is not None:
+            # if add flair or fasttext input, use word-level label
+            if flair_input is not None or ft_input is not None:
                 origional_labels = [layer[:n] for layer, n in zip(labels, word_cnt_lst)]
             # otherwise, use subword-level label
             else:
@@ -82,9 +87,7 @@ class BertNER(BertPreTrainedModel):
             padded_labels = pad_sequence(origional_labels, batch_first=True)
             loss_mask = padded_labels.gt(-100)
             
-            # if add flair, get the word-level label
             loss = self.crf(logits, padded_labels, mask=loss_mask) * (-1)
-            
             outputs = (loss,) + outputs
 
         return outputs

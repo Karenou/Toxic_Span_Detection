@@ -15,6 +15,7 @@ import numpy as np
 
 from flair.data import Sentence
 from flair.embeddings import FlairEmbeddings
+import h5py
 
 SPECIAL_CHARACTERS = string.whitespace
 
@@ -137,13 +138,17 @@ def build_ner_data_structure(data):
 
 
 class NERDataset(Dataset):
-    def __init__(self, sentences, labels, max_len, origional_data, flair_model=None, flair_embed_dim=1024):
+    def __init__(self, sentences, labels, max_len, origional_data, flair_model=None, flair_embed_dim=1024, 
+                fast_text_path=None, fast_text_embed_dim=300):
         """
         @param sentences: list of document in tokens
         @param labels: list of O, I word-level labels
         @param max_len: max_seq_len in bert model
         @param original_data: list of (fixed spans, text)
         @param flair_model: path to load finetuned language model in flair
+        @param flair_embed_dim: flair language model embedding dimension
+        @param fast_text_path: path to load fast text embedding vector
+        @param fast_text_embed_dim: fast text embedding vector dimension
         """
         self.tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased", do_lower_case=True)
         self.label2id =  {"O": 0, "I": 1}
@@ -158,6 +163,9 @@ class NERDataset(Dataset):
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.flair_model = self.load_lm(flair_model) if flair_model is not None else None
         self.flair_embed_dim = flair_embed_dim
+        self.ft_path = fast_text_path
+        self.ft_embed_dim = fast_text_embed_dim
+        self.ft_embedding = self.get_ft_embedding() if self.ft_path else None
 
     def preprocess(self, sentences, labels, origional_data):
         """
@@ -196,6 +204,13 @@ class NERDataset(Dataset):
         embeddings = torch.cat(embeddings, dim=0).cpu().numpy()
         return embeddings
 
+    def get_ft_embedding(self):
+        """
+        load fast text embedding vector
+        """
+        embed_hdf5 = h5py.File(self.ft_path, 'r')
+        return embed_hdf5
+
     def __getitem__(self, idx):
         # list of tokens
         sentence = self.dataset[idx][0]
@@ -205,6 +220,9 @@ class NERDataset(Dataset):
         origional_sentence = self.dataset[idx][2][1]
         # fixed span, list of toxic position index
         origional_label = self.dataset[idx][2][0]
+
+        # ft embedding (sentence len, ft_embed_dim)
+        ft_embedding = self.ft_embedding[str(idx)] if self.ft_path else np.zeros((1, self.flair_embed_dim))
 
         encoding = self.tokenizer(sentence,
                                     is_pretokenized=True, 
@@ -222,8 +240,8 @@ class NERDataset(Dataset):
             else:
                 break
         
-        # if adding flair, use the word-level label
-        if self.flair_model is not None:
+        # if adding flair or fasttext, use the word-level label
+        if self.flair_model is not None or self.ft_path is not None:
             if len(labels) > self.max_seq_len:
                 encoded_labels = np.array(labels[:self.max_seq_len])
             else:
@@ -246,6 +264,7 @@ class NERDataset(Dataset):
         item['origional_sentences'] = origional_sentence
         item['origional_labels'] = origional_label
         item["tokens_len"] = length
+        item["ft_embedding"] = ft_embedding
 
         return item
 
@@ -268,6 +287,9 @@ class NERDataset(Dataset):
         offset = [x["offset_mapping"] for x in batch]
         attention_masks = [x["attention_mask"] for x in batch]
 
+        # ft embedding
+        ft_embeddings = [x["ft_embedding"] for x in batch]
+
         batch_len = len(input_ids)
 
         # initialize empty batch
@@ -275,6 +297,7 @@ class NERDataset(Dataset):
         batch_labels = self.label_pad_idx * np.ones((batch_len, self.max_seq_len))
         batch_attention_masks = self.word_pad_idx * np.ones((batch_len, self.max_seq_len))
         batch_flair_feat = self.word_pad_idx * np.ones((batch_len, self.max_seq_len, self.flair_embed_dim))
+        batch_ft_feat = self.word_pad_idx * np.ones((batch_len, self.max_seq_len, self.ft_embed_dim))
 
         for i in range(batch_len):
             cur_len = len(input_ids[i])
@@ -287,9 +310,12 @@ class NERDataset(Dataset):
             batch_attention_masks[i][:cur_tags_len] = attention_masks[i]
             
             # add flair embedding if needed, only embed the first max_seq_len tokens
+            curr_sentence_len = min(self.max_seq_len, len(sentences[i]))
             if self.flair_model is not None:
-                curr_sentence_len = min(self.max_seq_len, len(sentences[i]))
                 batch_flair_feat[i][:curr_sentence_len] = self.get_flair_embedding(sentences[i][:curr_sentence_len])
+
+            if self.ft_path is not None:
+                batch_ft_feat[i][:curr_sentence_len] = ft_embeddings[i][:curr_sentence_len, :]
 
         # convert data to torch LongTensors
         batch_data = torch.tensor(batch_data, dtype=torch.long)
@@ -298,17 +324,19 @@ class NERDataset(Dataset):
 
         # convert embedding to torch FloatTensors
         batch_flair_feat = torch.tensor(batch_flair_feat, dtype=torch.float)
+        batch_ft_feat = torch.tensor(batch_ft_feat, dtype=torch.float)
 
-        return [batch_data, batch_flair_feat, batch_attention_masks, batch_labels, sentences, origional_sentence, origional_label, length, offset]
+        return [batch_data, batch_flair_feat, batch_ft_feat, batch_attention_masks, batch_labels, sentences, origional_sentence, origional_label, length, offset]
 
 
-def get_dataset(file_path, max_seq_len=96, split="train", flair_model_path=None):
+def get_dataset(file_path, max_seq_len=96, split="train", flair_model_path=None, fast_text_path=None):
     """
     return NERDataset
     @param file_path: path of the csv file
     @param max_seq_len: max sequence length for bert input tokens
     @param split: train, trial or test
     @param flair_model_path: None if not adding flair embedding
+    @param fast_text_path: path to load fast text word embedding
     """
     raw_data = read_datafile(file_path)
     nlp = spacy.load("en_core_web_sm")
@@ -321,5 +349,6 @@ def get_dataset(file_path, max_seq_len=96, split="train", flair_model_path=None)
         data_lst.append((doc.text, {'entities': ents}, text))
     
     X,y = build_ner_data_structure(data_lst)
-    dataset = NERDataset(X, y, max_seq_len, raw_data, flair_model_path)
+    ft_path = "%s/%s_ft_embedding.h5" % (fast_text_path, split) if fast_text_path is not None else None
+    dataset = NERDataset(X, y, max_seq_len, raw_data, flair_model=flair_model_path, fast_text_path=ft_path)
     return dataset
