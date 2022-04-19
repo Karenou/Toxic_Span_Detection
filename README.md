@@ -55,9 +55,15 @@ Pooling method = sum pooling
 
 2022/04/13 
 #1 66.22 bert + epoch 3
+
 #2 67.46 bert + lstm + epoch 3
+
 #3 67.81 bert + lstm + 4_8_12 avg + epoch 2
+
 #4 67.62 bert + lstm + 4_8_12 avg + pseudo_label + epoch 2
+
 #E 68.14 vote ensemble(model#2 & model#3)
+
 #E 68.18 intersection ensemble(model#1 & model#2 & model#3)
+
 #E 68.34 intersection ensemble(model#2, model#3, flair, fasttext)
