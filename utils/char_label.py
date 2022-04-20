@@ -36,6 +36,47 @@ def get_char_level_label(data):
 
     return labels
 
+def get_roberta_char_level_label(data):
+    """
+    convert token-level label to character-level for roberta
+    """
+    labels = []
+    length = data["length"]
+    tags = data["tags"][1:length]
+    offset = data["offset"]
+    words = data["words"]
+    sentence = data["sentence"]
+    index = 0
+    bias = 0
+
+    for i in range(length - 1):
+        try:
+            if i != 0 and offset[i + 1][0] == 0:
+                continue
+            if offset[i + 1][0] == 1:
+                subword = words[index][offset[i + 1][0] - 1:offset[i + 1][1]]
+            else:
+                subword = words[index][offset[i + 1][0]:offset[i + 1][1]]
+            if offset[i + 1][1] == len(words[index]):
+                index = index + 1
+            elif offset[i + 1][1] > len(words[index]):
+                print("error")
+            bias = sentence.find(subword) + bias
+
+            if tags[i] == "I":
+                pos = bias
+                for i in range(len(subword)):
+                    labels.append(pos)
+                    pos = pos + 1
+
+            bias = bias + len(subword)
+            sentence = sentence[sentence.find(subword) + len(subword):]
+        except Exception as e:
+            pass
+            # print("excpetion in char:", e)
+
+    return labels
+
 def word_to_char_level_label(data):
     """
     the tags are word-level prediction
