@@ -11,8 +11,8 @@ from torch.utils.data import DataLoader
 from transformers.optimization import get_cosine_schedule_with_warmup, AdamW
 
 from utils.metrics import f1_score
-from utils.char_label import get_char_level_label, get_roberta_char_level_label, save_pred_label
-from utils.ner_dataset_ordinary import get_dataset
+from utils.char_label import get_roberta_char_level_label, save_pred_label
+from utils.ner_dataset_roberta import get_dataset
 from model.bert import BertNER
 from model.roberta import RobertaNER
 
