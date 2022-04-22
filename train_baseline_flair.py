@@ -12,7 +12,7 @@ from utils.metrics import f1_score
 from utils.char_label import word_to_char_level_label, save_pred_label
 from utils.ner_dataset import get_dataset
 from utils.map_offset_to_word import offset_to_word
-from model.bert import BertNER
+from model.bert import BertNER, BertLstmNER, BertAvgNER
 
 label2id =  {"O": 0, "I": 1}
 id2label = {_id: _label for _label, _id in list(label2id.items())}
@@ -126,6 +126,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--base_path", type=str, required=True, help="base path to load data")
     parser.add_argument("--flair_model", type=str, required=True, help="base path to load flair finetuned language model")
+    parser.add_argument("--lstm", type=bool, default=False, help="whether add lstm in classifier")
+    parser.add_argument("--bert_avg", type=bool, default=False, help="whether concat 3 layers of bert as input feature")
     parser.add_argument("--pooling", type=str, default="sum", help="pooling method to aggregate subword embedding, sum or mean")
     parser.add_argument("--batch_size", type=int, default=32, help="batch size")
     parser.add_argument("--num_epoch", type=int, default=10, help="number of training epochs")
@@ -142,7 +144,14 @@ if __name__ == "__main__":
     test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False, collate_fn=trial_set.collate_fn)
 
     torch.set_num_threads(4)
-    model = BertNER.from_pretrained("bert-base-uncased")
+    
+    if args.lstm:
+        model = BertLstmNER.from_pretrained("bert-base-uncased")
+    elif args.bert_avg:
+        model = BertAvgNER.from_pretrained("bert-base-uncased")
+    else:
+        model = BertNER.from_pretrained("bert-base-uncased")
+
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model.to(device)
     bert_optimizer = list(model.bert.named_parameters())
