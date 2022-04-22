@@ -103,7 +103,6 @@ def build_ner_data_structure(data):
         for word in words:
             index = sent.find(word)
             if index == -1:
-                print("error")
                 skip_sample = True
                 continue
 
